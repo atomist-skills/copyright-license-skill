@@ -1,0 +1,37 @@
+/*
+ * Copyright © 2020 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { parameter } from "@atomist/skill";
+
+/** Skill parameters */
+export interface SkillConfiguration {
+	/** Override default commit message */
+	commitMessage?: string;
+	/** Copyright holder */
+	copyrightHolder?: string;
+	/** Glob pattern for files to search rather than all recognized files */
+	fileGlob?: string;
+	/** Glob patterns for files to ignore */
+	ignoreGlobs?: string[];
+	/** Labels to add to pull request */
+	labels?: string[];
+	/** SPDX identifer of license to use */
+	license?: string;
+	/** Set to true to only add license header to files changed in push */
+	onlyChanged?: boolean;
+	/** How to persist changes back to the repository */
+	push?: "none" & parameter.PushStrategy;
+}
