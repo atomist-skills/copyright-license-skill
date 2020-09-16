@@ -1,8 +1,8 @@
-# `@atomist/npm-version-skill`
+# `@atomist/copyright-license-skill`
 
-`@atomist/npm-version-skill` is licensed under Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
+`@atomist/copyright-license-skill` is licensed under Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
-This page details all runtime dependencies of `@atomist/npm-version-skill`.
+This page details all runtime dependencies of `@atomist/copyright-license-skill`.
 
 ## Licenses
 
@@ -13,12 +13,12 @@ This page details all runtime dependencies of `@atomist/npm-version-skill`.
 | [Apache-2.0](#apache-20)      | 39    |
 | [BSD-2-Clause](#bsd-2-clause) | 6     |
 | [BSD-3-Clause](#bsd-3-clause) | 17    |
-| [CC0-1.0](#cc0-10)            | 1     |
+| [CC0-1.0](#cc0-10)            | 2     |
 | [GPL-2.0](#gpl-20)            | 2     |
 | [GPL-3.0](#gpl-30)            | 1     |
-| [ISC](#isc)                   | 32    |
+| [ISC](#isc)                   | 33    |
 | [MIT AND Zlib](#mit-and-zlib) | 1     |
-| [MIT](#mit)                   | 205   |
+| [MIT](#mit)                   | 206   |
 
 #### Apache-2.0
 
@@ -27,7 +27,7 @@ Apache License 2.0 - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apa
 | Name                                  | Version                       | Publisher             | Repository                                                                                                                       |
 | ------------------------------------- | ----------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | `@atomist/skill-logging`              | `0.1.1-9`                     | Atomist               | [https://github.com/atomist-skills/skill-logging](https://github.com/atomist-skills/skill-logging)                               |
-| `@atomist/skill`                      | `0.1.1-106`                   | Atomist               | [https://github.com/atomist-skills/skill](https://github.com/atomist-skills/skill)                                               |
+| `@atomist/skill`                      | `0.1.1-115`                   | Atomist               | [https://github.com/atomist-skills/skill](https://github.com/atomist-skills/skill)                                               |
 | `@atomist/slack-messages`             | `1.2.0-master.20200806132057` | Atomist               | [https://github.com/atomist/slack-messages](https://github.com/atomist/slack-messages)                                           |
 | `@google-cloud/common`                | `2.4.0`                       | Google Inc.           | [https://github.com/googleapis/nodejs-common](https://github.com/googleapis/nodejs-common)                                       |
 | `@google-cloud/common`                | `3.3.3`                       | Google Inc.           | [https://github.com/googleapis/nodejs-common](https://github.com/googleapis/nodejs-common)                                       |
@@ -107,9 +107,10 @@ BSD 3-Clause "New" or "Revised" License - [https://opensource.org/licenses/BSD-3
 
 Creative Commons Zero v1.0 Universal - [https://creativecommons.org/publicdomain/zero/1.0/legalcode](https://creativecommons.org/publicdomain/zero/1.0/legalcode)
 
-| Name        | Version  | Publisher     | Repository                                                                             |
-| ----------- | -------- | ------------- | -------------------------------------------------------------------------------------- |
-| `type-fest` | `0.16.0` | Sindre Sorhus | [https://github.com/sindresorhus/type-fest](https://github.com/sindresorhus/type-fest) |
+| Name                | Version  | Publisher     | Repository                                                                                             |
+| ------------------- | -------- | ------------- | ------------------------------------------------------------------------------------------------------ |
+| `spdx-license-list` | `6.2.0`  | Sindre Sorhus | [https://github.com/sindresorhus/spdx-license-list](https://github.com/sindresorhus/spdx-license-list) |
+| `type-fest`         | `0.16.0` | Sindre Sorhus | [https://github.com/sindresorhus/type-fest](https://github.com/sindresorhus/type-fest)                 |
 
 #### GPL-2.0
 
@@ -157,6 +158,7 @@ ISC License - [https://www.isc.org/downloads/software-support-policy/isc-license
 | `semver`                | `7.3.2`  |                    | [https://github.com/npm/node-semver](https://github.com/npm/node-semver)                           |
 | `set-blocking`          | `2.0.0`  | Ben Coe            | [https://github.com/yargs/set-blocking](https://github.com/yargs/set-blocking)                     |
 | `signal-exit`           | `3.0.3`  | Ben Coe            | [https://github.com/tapjs/signal-exit](https://github.com/tapjs/signal-exit)                       |
+| `string-similarity`     | `4.0.2`  | Akash Kurdekar     | [https://github.com/aceakash/string-similarity](https://github.com/aceakash/string-similarity)     |
 | `universal-user-agent`  | `6.0.0`  |                    | [https://github.com/gr2m/universal-user-agent](https://github.com/gr2m/universal-user-agent)       |
 | `which-module`          | `2.0.0`  | nexdrew            | [https://github.com/nexdrew/which-module](https://github.com/nexdrew/which-module)                 |
 | `which`                 | `2.0.2`  | Isaac Z. Schlueter | [https://github.com/isaacs/node-which](https://github.com/isaacs/node-which)                       |
@@ -178,15 +180,15 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `@nodelib/fs.walk`                      | `1.2.4`    |                     | [https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.walk](https://github.com/nodelib/nodelib/tree/master/packages/fs/fs.walk)       |
 | `@octokit/auth-token`                   | `2.4.2`    |                     | [https://github.com/octokit/auth-token.js](https://github.com/octokit/auth-token.js)                                                           |
 | `@octokit/core`                         | `3.1.2`    |                     | [https://github.com/octokit/core.js](https://github.com/octokit/core.js)                                                                       |
-| `@octokit/endpoint`                     | `6.0.5`    |                     | [https://github.com/octokit/endpoint.js](https://github.com/octokit/endpoint.js)                                                               |
-| `@octokit/graphql`                      | `4.5.4`    |                     | [https://github.com/octokit/graphql.js](https://github.com/octokit/graphql.js)                                                                 |
-| `@octokit/plugin-paginate-rest`         | `2.3.2`    |                     | [https://github.com/octokit/plugin-paginate-rest.js](https://github.com/octokit/plugin-paginate-rest.js)                                       |
+| `@octokit/endpoint`                     | `6.0.6`    |                     | [https://github.com/octokit/endpoint.js](https://github.com/octokit/endpoint.js)                                                               |
+| `@octokit/graphql`                      | `4.5.6`    |                     | [https://github.com/octokit/graphql.js](https://github.com/octokit/graphql.js)                                                                 |
+| `@octokit/plugin-paginate-rest`         | `2.3.3`    |                     | [https://github.com/octokit/plugin-paginate-rest.js](https://github.com/octokit/plugin-paginate-rest.js)                                       |
 | `@octokit/plugin-request-log`           | `1.0.0`    |                     | [https://github.com/octokit/plugin-request-log.js](https://github.com/octokit/plugin-request-log.js)                                           |
 | `@octokit/plugin-rest-endpoint-methods` | `4.1.4`    |                     | [https://github.com/octokit/plugin-rest-endpoint-methods.js](https://github.com/octokit/plugin-rest-endpoint-methods.js)                       |
 | `@octokit/plugin-retry`                 | `3.0.3`    |                     | [https://github.com/octokit/plugin-retry.js](https://github.com/octokit/plugin-retry.js)                                                       |
 | `@octokit/plugin-throttling`            | `3.3.0`    |                     | [https://github.com/octokit/plugin-throttling.js](https://github.com/octokit/plugin-throttling.js)                                             |
 | `@octokit/request-error`                | `2.0.2`    |                     | [https://github.com/octokit/request-error.js](https://github.com/octokit/request-error.js)                                                     |
-| `@octokit/request`                      | `5.4.7`    |                     | [https://github.com/octokit/request.js](https://github.com/octokit/request.js)                                                                 |
+| `@octokit/request`                      | `5.4.8`    |                     | [https://github.com/octokit/request.js](https://github.com/octokit/request.js)                                                                 |
 | `@octokit/rest`                         | `18.0.5`   |                     | [https://github.com/octokit/rest.js](https://github.com/octokit/rest.js)                                                                       |
 | `@octokit/types`                        | `5.4.1`    |                     | [https://github.com/octokit/types.ts](https://github.com/octokit/types.ts)                                                                     |
 | `@tootallnate/once`                     | `1.1.2`    | Nathan Rajlich      | [https://github.com/TooTallNate/once](https://github.com/TooTallNate/once)                                                                     |
@@ -205,11 +207,12 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `@types/lodash`                         | `4.14.161` |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/long`                           | `4.0.1`    |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/node-fetch`                     | `2.5.7`    |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
-| `@types/node`                           | `12.12.56` |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
-| `@types/node`                           | `13.13.17` |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
+| `@types/node`                           | `12.12.57` |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
+| `@types/node`                           | `13.13.18` |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/retry`                          | `0.12.0`   |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/semver`                         | `7.3.3`    |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/stack-trace`                    | `0.0.29`   |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
+| `@types/string-similarity`              | `3.0.0`    |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/uuid`                           | `8.3.0`    |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/yargs-parser`                   | `15.0.0`   |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
 | `@types/yargs`                          | `15.0.5`   |                     | [https://github.com/DefinitelyTyped/DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped)                                       |
@@ -278,7 +281,7 @@ MIT License - [https://opensource.org/licenses/MIT](https://opensource.org/licen
 | `is-glob`                               | `4.0.1`    | Jon Schlinkert      | [https://github.com/micromatch/is-glob](https://github.com/micromatch/is-glob)                                                                 |
 | `is-number`                             | `7.0.0`    | Jon Schlinkert      | [https://github.com/jonschlinkert/is-number](https://github.com/jonschlinkert/is-number)                                                       |
 | `is-obj`                                | `2.0.0`    | Sindre Sorhus       | [https://github.com/sindresorhus/is-obj](https://github.com/sindresorhus/is-obj)                                                               |
-| `is-plain-object`                       | `4.1.1`    | Jon Schlinkert      | [https://github.com/jonschlinkert/is-plain-object](https://github.com/jonschlinkert/is-plain-object)                                           |
+| `is-plain-object`                       | `5.0.0`    | Jon Schlinkert      | [https://github.com/jonschlinkert/is-plain-object](https://github.com/jonschlinkert/is-plain-object)                                           |
 | `is-ssh`                                | `1.3.2`    | Ionică Bizău        | [https://github.com/IonicaBizau/node-is-ssh](https://github.com/IonicaBizau/node-is-ssh)                                                       |
 | `is-stream-ended`                       | `0.1.4`    | Stephen Sawchuk     | [https://github.com/stephenplusplus/is-stream-ended](https://github.com/stephenplusplus/is-stream-ended)                                       |
 | `is-stream`                             | `2.0.0`    | Sindre Sorhus       | [https://github.com/sindresorhus/is-stream](https://github.com/sindresorhus/is-stream)                                                         |
