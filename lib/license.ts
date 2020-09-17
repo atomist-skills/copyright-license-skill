@@ -16,11 +16,13 @@
 
 import * as fg from "fast-glob";
 import * as fs from "fs-extra";
+import * as path from "path";
 import * as spdx from "spdx-license-list/full";
 import { findBestMatch } from "string-similarity";
 
 /**
- * Find the first file in `cwd` that looks like a license file.
+ * Find the first file in `cwd` that looks like a license file. Just
+ * the name of the license file is returned.
  */
 export async function findLicense(cwd: string): Promise<string | undefined> {
 	const foundLicenses = await fg("license{,.*}", {
@@ -81,15 +83,14 @@ export async function ensureLicense(args: EnsureLicenseArgs): Promise<void> {
 	if (!args.licenseKey) {
 		return;
 	}
-	let licenseFile = await findLicense(args.cwd);
+	const licenseFile = await findLicense(args.cwd);
+	const licensePath = path.join(args.cwd, licenseFile || "LICENSE");
 	if (licenseFile) {
-		const licenseContent = await fs.readFile(licenseFile, "utf8");
+		const licenseContent = await fs.readFile(licensePath, "utf8");
 		const licenseKey = licenseMatcher({ license: licenseContent });
 		if (licenseKey === args.licenseKey) {
 			return;
 		}
-	} else {
-		licenseFile = "LICENSE";
 	}
-	await fs.writeFile(licenseFile, spdx[args.licenseKey].licenseText);
+	await fs.writeFile(licensePath, spdx[args.licenseKey].licenseText);
 }

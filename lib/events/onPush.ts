@@ -78,7 +78,8 @@ export const handler: EventHandler<
 		}
 		let licenseContent: string;
 		try {
-			licenseContent = await fs.readFile(licenseFile, "utf8");
+			const licensePath = project.path(licenseFile);
+			licenseContent = await fs.readFile(licensePath, "utf8");
 		} catch (e) {
 			return status.success(
 				`No license configured and failed to read license file: ${e.message}`,

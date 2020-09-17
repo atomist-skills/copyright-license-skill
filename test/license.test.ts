@@ -17,9 +17,86 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as assert from "power-assert";
-import { licenseMatcher } from "../lib/license";
+import * as spdx from "spdx-license-list/full";
+import { ensureLicense, findLicense, licenseMatcher } from "../lib/license";
 
 describe("license", () => {
+	describe("findLicense", () => {
+		it("finds a license file", async () => {
+			const d = path.join(__dirname, "license", "ensure-same");
+			const l = await findLicense(d);
+			assert(l === "LICENSE");
+		});
+
+		it("finds a license file with extension", async () => {
+			const d = path.join(__dirname, "license", "ensure-diff");
+			const l = await findLicense(d);
+			assert(l === "license.txt");
+		});
+
+		it("does not find a license file when none exists", async () => {
+			const d = path.join(__dirname, "license", "ensure-add");
+			const l = await findLicense(d);
+			assert(l === undefined);
+		});
+	});
+
+	describe("ensureLicense", () => {
+		it("adds license", async () => {
+			const d = path.join(__dirname, "license", "ensure-add");
+			const l = path.join(d, "LICENSE");
+			const k = "Apache-2.0";
+			try {
+				await fs.unlink(l);
+			} catch (e) {
+				/* ignore */
+			}
+			await ensureLicense({ cwd: d, licenseKey: k });
+			const c = await fs.readFile(l, "utf8");
+			assert(c === spdx[k].licenseText);
+			try {
+				await fs.unlink(l);
+			} catch (e) {
+				/* ignore */
+			}
+		});
+
+		it("updates license", async () => {
+			const d = path.join(__dirname, "license", "ensure-diff");
+			const k = "Apache-2.0";
+			try {
+				await ensureLicense({ cwd: d, licenseKey: k });
+			} catch (e) {
+				assert.fail(`ensure failed: ${e.message}`);
+			}
+			const l = path.join(d, "license.txt");
+			let c: string;
+			try {
+				c = await fs.readFile(l, "utf8");
+			} catch (e) {
+				assert.fail(`read '${l}' failed: ${e.message}`);
+			}
+			assert(c === spdx[k].licenseText);
+			try {
+				await fs.copyFile(path.join(d, "mit"), l);
+			} catch (e) {
+				/* ignore */
+			}
+		});
+
+		it("does nothing to matching license", async () => {
+			const d = path.join(__dirname, "license", "ensure-same");
+			const k = "Apache-2.0";
+			await ensureLicense({ cwd: d, licenseKey: k });
+			const l = path.join(d, "LICENSE");
+			const c = await fs.readFile(l, "utf8");
+			const a = await fs.readFile(
+				path.join(__dirname, "..", "LICENSE"),
+				"utf8",
+			);
+			assert(c === a);
+		});
+	});
 	describe("licenseMatcher", () => {
 		it("matches this license", async () => {
 			const l = await fs.readFile(

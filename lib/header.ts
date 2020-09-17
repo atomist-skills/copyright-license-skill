@@ -59,18 +59,15 @@ const commentTypes = [
 ];
 
 /** Arguments to [[fixCopyrightLicenseHeader]] */
-export interface FixCopyrightLicenseHeaderArgs
-	extends Pick<
+export type FixCopyrightLicenseHeaderArgs = ChangedFilesArgs &
+	Pick<
 		SkillConfiguration,
 		| "copyrightHolder"
 		| "fileGlob"
 		| "ignoreGlobs"
 		| "license"
 		| "onlyChanged"
-	> {
-	project: project.Project;
-	push: OnPushSubscription["Push"][0];
-}
+	>;
 
 /**
  * Update copyright license header in configured files.
@@ -116,7 +113,8 @@ export async function fixCopyrightLicenseHeader(
 	});
 	for (const file of files) {
 		try {
-			const content = await fs.readFile(file, "utf8");
+			const filePath = args.project.path(file);
+			const content = await fs.readFile(filePath, "utf8");
 			const newContent = updateCopyrightHeader({
 				content,
 				file,
