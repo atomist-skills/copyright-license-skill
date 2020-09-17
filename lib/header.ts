@@ -77,9 +77,11 @@ export interface FixCopyrightLicenseHeaderArgs
  */
 export async function fixCopyrightLicenseHeader(
 	args: FixCopyrightLicenseHeaderArgs,
-): Promise<void> {
+): Promise<string[]> {
+	const warnings: string[] = [];
 	if (!args.license) {
-		return;
+		warnings.push("No license configured");
+		return warnings;
 	}
 
 	const extensions = commentTypes
@@ -91,7 +93,7 @@ export async function fixCopyrightLicenseHeader(
 	try {
 		changed = await changedFiles(args);
 	} catch (e) {
-		log.warn(`Failed to get list of changed files: ${e.message}`);
+		warnings.push(`Failed to get list of changed files: ${e.message}`);
 		changed = [];
 	}
 	let files: string[] | undefined;
@@ -104,8 +106,8 @@ export async function fixCopyrightLicenseHeader(
 		});
 	}
 	if (!files || files.length < 1) {
-		log.info(`No matching files found`);
-		return;
+		warnings.push(`No matching files found`);
+		return warnings;
 	}
 
 	const header = licenseHeader({
@@ -125,9 +127,11 @@ export async function fixCopyrightLicenseHeader(
 				await fs.writeFile(file, newContent);
 			}
 		} catch (e) {
-			log.warn(`Failed to process '${file}': ${e.message}`);
+			warnings.push(`Failed to process '${file}': ${e.message}`);
 		}
 	}
+
+	return warnings;
 }
 
 /** Arguments to [[updateYear]]. */

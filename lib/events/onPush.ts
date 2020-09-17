@@ -17,7 +17,6 @@
 import {
 	EventHandler,
 	github,
-	log,
 	repository,
 	secret,
 	status,
@@ -66,7 +65,7 @@ export const handler: EventHandler<
 				licenseKey: config.parameters.license,
 			});
 		} catch (e) {
-			log.error(
+			await ctx.audit.log(
 				`Failed to ensure repository ${repoSlug} has license file: ${e.message}`,
 			);
 		}
@@ -95,11 +94,14 @@ export const handler: EventHandler<
 	}
 
 	try {
-		await fixCopyrightLicenseHeader({
+		const warnings = await fixCopyrightLicenseHeader({
 			...config.parameters,
 			project,
 			push,
 		});
+		for (const warning of warnings) {
+			await ctx.audit.log(warning);
+		}
 	} catch (e) {
 		const reason = `Failed to update copyright licence headers: ${e.message}`;
 		await ctx.audit.log(reason);
@@ -139,6 +141,6 @@ export const handler: EventHandler<
 	);
 
 	const msg = `Completed copyright license skill on ${repoSlug}`;
-	log.info(msg);
+	await ctx.audit.log(msg);
 	return status.success(msg);
 };
