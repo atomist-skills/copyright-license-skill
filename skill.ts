@@ -102,5 +102,9 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 		repos: parameter.repoFilter(),
 	},
 
+	runtime: {
+		memory: 512,
+	},
+
 	subscriptions: ["@atomist/skill/github/onPush"],
 });
