@@ -35,8 +35,9 @@ export const handler: EventHandler<
 	if (!push) {
 		return status.success("No push").hidden();
 	}
-	if (push.branch?.startsWith("atomist/")) {
-		return status.success(`Ignore generated branch`).hidden();
+	const branch = push.branch || "master";
+	if (branch.startsWith("atomist/")) {
+		return status.success(`Ignore generated branch ${branch}`).hidden();
 	}
 	const config = ctx.configuration[0];
 	const repo = push.repo;
@@ -70,12 +71,16 @@ export const handler: EventHandler<
 	const commits = push.commits?.length || 1;
 	const project = await ctx.project.clone(
 		repository.gitHub({
+			branch,
 			owner: repo.owner,
 			repo: repo.name,
 			credential,
 			sha,
 		}),
-		{ depth: commits + 1 },
+		{
+			depth: commits + 1,
+			detachHead: true,
+		},
 	);
 	await ctx.audit.log(`Cloned repository ${repoSlug}#${sha}`);
 
@@ -142,7 +147,7 @@ export const handler: EventHandler<
 		project,
 		config.parameters.push,
 		{
-			branch: push.branch || "master",
+			branch,
 			defaultBranch: repo.defaultBranch || "master",
 			author: {
 				login: push.after?.author?.login || "atomist-bot",
@@ -153,7 +158,7 @@ export const handler: EventHandler<
 			},
 		},
 		{
-			branch: `atomist/copyright-${push.branch}`,
+			branch: `atomist/copyright-${branch}`,
 			title,
 			body,
 			labels: config.parameters.labels,
