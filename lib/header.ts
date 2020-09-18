@@ -122,7 +122,7 @@ export async function fixCopyrightLicenseHeader(
 				updateYear: updateCopyrightYear({ ...args, changed, file }),
 			});
 			if (newContent !== content) {
-				await fs.writeFile(file, newContent);
+				await fs.writeFile(filePath, newContent);
 			}
 		} catch (e) {
 			warnings.push(`Failed to process '${file}': ${e.message}`);
