@@ -34,14 +34,18 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 	},
 
 	parameters: {
-		commitMessage: {
-			type: ParameterType.String,
-			displayName: "Commit message",
+		license: {
+			type: ParameterType.SingleChoice,
+			displayName: "License",
 			description:
-				"Commit message to use when committing header fixes back into the repository",
-			placeHolder: "Copyright license fixes",
+				"Select license to apply to repository and source code headers. " +
+				"If no license is selected, the contents of the `LICENSE` file " +
+				"in the repository will be scanned to determine the license.",
+			options: Object.keys(spdx).map(id => ({
+				text: spdx[id].name,
+				value: id,
+			})),
 			required: false,
-			visibility: ParameterVisibility.Hidden,
 		},
 		copyrightHolder: {
 			type: ParameterType.String,
@@ -65,6 +69,29 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 				"Glob patterns of files to not manage copyright and license header",
 			required: false,
 		},
+		onlyChanged: {
+			type: ParameterType.Boolean,
+			defaultValue: true,
+			displayName: "Consider only changed files",
+			description:
+				"Select if you want copyright license headers _added_ to only files changed in the push. " +
+				"Copyright license headers are only ever _updated_ in changed files.",
+			required: false,
+		},
+		commitMessage: {
+			type: ParameterType.String,
+			displayName: "Commit message",
+			description:
+				"Commit message to use when committing header fixes back into the repository",
+			placeHolder: "Copyright license fixes",
+			required: false,
+			visibility: ParameterVisibility.Hidden,
+		},
+		push: parameter.pushStrategy({
+			displayName: "Commit Strategy",
+			description:
+				"Select how to persist the changes made back to the repository",
+		}),
 		labels: {
 			type: ParameterType.StringArray,
 			displayName: "Pull request labels",
@@ -73,31 +100,6 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 				"[auto-merge](https://go.atomist.com/catalog/skills/atomist/github-auto-merge-skill) behavior.",
 			required: false,
 		},
-		license: {
-			type: ParameterType.SingleChoice,
-			displayName: "License",
-			description:
-				"Select license to apply to repository and source code headers. " +
-				"If no license is selected, the contents of the `LICENSE` file " +
-				"in the repository will be scanned to determine the license.",
-			options: Object.keys(spdx).map(id => ({
-				text: spdx[id].name,
-				value: id,
-			})),
-			required: false,
-		},
-		onlyChanged: {
-			type: ParameterType.Boolean,
-			displayName: "Consider only changed files",
-			description:
-				"Select to only consider files changed in the push triggering execution",
-			required: false,
-		},
-		push: parameter.pushStrategy({
-			displayName: "Commit Strategy",
-			description:
-				"Select how to persist the changes made back to the repository",
-		}),
 		repos: parameter.repoFilter(),
 	},
 

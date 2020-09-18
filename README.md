@@ -25,7 +25,10 @@ repository has the proper license file and that all files have the
 proper license header with an up-to-date copyright notice. The
 "proper" license can be provided in the skill configuration or
 automatically determined by the contents of the `LICENSE` file in the
-repository.
+repository. If a file does not have a copyright license header, one is
+added. If a file has a copyright header, its copyright license header
+is updated if the file was changed and the copyright year is not the
+current year.
 
 <!---atomist-skill-readme:end--->
 
