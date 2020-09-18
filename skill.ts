@@ -50,7 +50,6 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 				"Entity holding the copyright on files, GitHub owner is used if not provided",
 			placeHolder: "Your Company, Inc.",
 			required: false,
-			visibility: ParameterVisibility.Hidden,
 		},
 		fileGlob: {
 			type: ParameterType.String,
