@@ -19,6 +19,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as spdx from "spdx-license-list/full";
 import { findBestMatch } from "string-similarity";
+import { fmt } from "./fmt";
 
 /**
  * Find the first file in `cwd` that looks like a license file. Just
@@ -92,5 +93,8 @@ export async function ensureLicense(args: EnsureLicenseArgs): Promise<void> {
 			return;
 		}
 	}
-	await fs.writeFile(licensePath, spdx[args.licenseKey].licenseText);
+	const licenseContent = await fmt({
+		text: spdx[args.licenseKey].licenseText,
+	});
+	await fs.writeFile(licensePath, licenseContent);
 }

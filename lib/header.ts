@@ -227,8 +227,12 @@ function year(): string {
 }
 
 const newline = "(?:\n|\r|\r\n|\u2028|\u2029)";
-const horizontalSpace = "[^\\S\n\r\u2028\u2029]";
+export const horizontalSpace = "[^\\S\n\r\u2028\u2029]";
 
+/**
+ * Return regular expression syntax for line comment with provided
+ * comment `prefix` token.
+ */
 function lineComment(prefix: string): string {
 	return `${horizontalSpace}*${prefix}.*${newline}`;
 }

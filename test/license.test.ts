@@ -18,6 +18,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as assert from "power-assert";
 import * as spdx from "spdx-license-list/full";
+import { fmt } from "../lib/fmt";
 import { ensureLicense, findLicense, licenseMatcher } from "../lib/license";
 
 describe("license", () => {
@@ -53,7 +54,8 @@ describe("license", () => {
 			}
 			await ensureLicense({ cwd: d, licenseKey: k });
 			const c = await fs.readFile(l, "utf8");
-			assert(c === spdx[k].licenseText);
+			const e = fmt({ text: spdx[k].licenseText });
+			assert(c === e);
 			try {
 				await fs.unlink(l);
 			} catch (e) {
@@ -76,7 +78,8 @@ describe("license", () => {
 			} catch (e) {
 				assert.fail(`read '${l}' failed: ${e.message}`);
 			}
-			assert(c === spdx[k].licenseText);
+			const e = fmt({ text: spdx[k].licenseText });
+			assert(c === e);
 			try {
 				await fs.copyFile(path.join(d, "mit"), l);
 			} catch (e) {
