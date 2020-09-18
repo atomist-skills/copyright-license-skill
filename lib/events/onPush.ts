@@ -48,6 +48,7 @@ export const handler: EventHandler<
 			apiUrl: repo.org.provider.apiUrl,
 		}),
 	);
+	const depth = (push.commits.length || 1) + 1;
 	const project = await ctx.project.clone(
 		repository.gitHub({
 			owner: repo.owner,
@@ -55,6 +56,7 @@ export const handler: EventHandler<
 			credential,
 			sha: push.after.sha,
 		}),
+		{ depth },
 	);
 	await ctx.audit.log(`Cloned repository ${repoSlug}#${sha}`);
 
