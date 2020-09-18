@@ -18,6 +18,8 @@ import { parameter } from "@atomist/skill";
 
 /** Skill parameters */
 export interface SkillConfiguration {
+	/** How to persist changes back to the repository */
+	push: parameter.PushStrategy;
 	/** Override default commit message */
 	commitMessage?: string;
 	/** Copyright holder */
@@ -32,6 +34,4 @@ export interface SkillConfiguration {
 	license?: string;
 	/** Set to true to only add license header to files changed in push */
 	onlyChanged?: boolean;
-	/** How to persist changes back to the repository */
-	push?: "none" & parameter.PushStrategy;
 }

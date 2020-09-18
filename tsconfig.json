@@ -10,7 +10,7 @@
     "sourceMap": true,
     "lib": ["DOM"],
     "strict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,

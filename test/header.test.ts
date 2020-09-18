@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import * as asert from "assert";
 import * as assert from "power-assert";
 import {
 	copyrightHeaderRegExp,
@@ -47,7 +48,7 @@ import * as assert from "power-assert";
 import { headerRegExp, licenseHeader } from "../lib/header";
 `;
 			const m = re.exec(c);
-			assert(m);
+			asert(m);
 			assert(m.length === 3);
 			assert(
 				m[0] ===
@@ -84,7 +85,7 @@ int main() {
 }
 `;
 			const m = re.exec(c);
-			assert(m);
+			asert(m);
 			assert(m.length === 3);
 			assert(
 				m[0] ===
@@ -114,7 +115,7 @@ function msg () {
 }
 `;
 			const m = re.exec(c);
-			assert(m);
+			asert(m);
 			assert(m.length === 2);
 			assert(
 				m[0] ===
@@ -149,7 +150,7 @@ function msg () {
 (cdr 'x)
 `;
 			const m = re.exec(c);
-			assert(m);
+			asert(m);
 			assert(m.length === 2);
 			assert(
 				m[0] ===
@@ -194,7 +195,7 @@ function msg () {
 }
 `;
 			const m = re.exec(c);
-			assert(m);
+			asert(m);
 			assert(m.length === 2);
 			assert(
 				m[0] ===
@@ -797,7 +798,7 @@ permissions and limitations under the License.`,
 			const re = preambleRegExp("#");
 			const c = `#! /bin/sh\n\nset +e\nexit 0\n`;
 			const m = re.exec(c);
-			assert(m);
+			asert(m);
 			assert(m[0] === "#! /bin/sh\n");
 		});
 
@@ -827,7 +828,7 @@ permissions and limitations under the License.`,
 			for (const c of cs) {
 				const re = preambleRegExp(c.p);
 				const m = re.exec(c.c);
-				assert(m);
+				asert(m);
 				assert(m[0] === c.e);
 			}
 		});
@@ -836,7 +837,7 @@ permissions and limitations under the License.`,
 			const re = preambleRegExp("#");
 			const c = `#! /bin/sh\n# this script does# not do much\nset +e\nexit 0\n`;
 			const m = re.exec(c);
-			assert(m);
+			asert(m);
 			assert(m[0] === "#! /bin/sh\n# this script does# not do much\n");
 		});
 	});

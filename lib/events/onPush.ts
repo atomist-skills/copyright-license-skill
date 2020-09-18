@@ -31,32 +31,51 @@ export const handler: EventHandler<
 	OnPushSubscription,
 	SkillConfiguration
 > = async ctx => {
-	const push = ctx.data.Push[0];
-	if (push.branch.startsWith("atomist/")) {
+	const push = ctx.data.Push?.[0];
+	if (!push) {
+		return status.success("No push").hidden();
+	}
+	if (push.branch?.startsWith("atomist/")) {
 		return status.success(`Ignore generated branch`).hidden();
 	}
 	const config = ctx.configuration[0];
 	const repo = push.repo;
-	const sha = push.after.sha;
+	if (!repo || !repo.owner || !repo.name) {
+		return status.success("No repo").hidden();
+	}
 	const repoSlug = `${repo.owner}/${repo.name}`;
+	if (!push.after) {
+		return status
+			.success(`No after commit in push of ${repoSlug}`)
+			.hidden();
+	}
+	const sha = push.after?.sha;
+	if (!sha) {
+		return status.success(`No after SHA in push of ${repoSlug}`).hidden();
+	}
 	await ctx.audit.log(`Starting npm Version on ${repoSlug}#${sha}`);
 
 	const credential = await ctx.credential.resolve(
 		secret.gitHubAppToken({
 			owner: repo.owner,
 			repo: repo.name,
-			apiUrl: repo.org.provider.apiUrl,
+			apiUrl: repo.org?.provider?.apiUrl,
 		}),
 	);
-	const depth = (push.commits.length || 1) + 1;
+	if (!credential) {
+		return status
+			.success(`Failed to get credential for ${repoSlug}`)
+			.hidden();
+	}
+	const commits = push.commits?.length || 1;
 	const project = await ctx.project.clone(
 		repository.gitHub({
 			owner: repo.owner,
 			repo: repo.name,
 			credential,
-			sha: push.after.sha,
+			sha,
 		}),
-		{ depth },
+		{ depth: commits + 1 },
 	);
 	await ctx.audit.log(`Cloned repository ${repoSlug}#${sha}`);
 
@@ -100,7 +119,7 @@ export const handler: EventHandler<
 		const warnings = await fixCopyrightLicenseHeader({
 			...config.parameters,
 			project,
-			push,
+			push: { commits, owner: repo.owner, sha },
 		});
 		for (const warning of warnings) {
 			await ctx.audit.log(warning);
@@ -111,7 +130,6 @@ export const handler: EventHandler<
 		return status.failure(reason);
 	}
 
-	const pushCfg = config.parameters.push;
 	const title =
 		config.parameters.commitMessage?.split("\n")?.[0] ||
 		"Copyright license fixes";
@@ -122,14 +140,16 @@ export const handler: EventHandler<
 	await github.persistChanges(
 		ctx,
 		project,
-		pushCfg,
+		config.parameters.push,
 		{
-			branch: push.branch,
-			defaultBranch: repo.defaultBranch,
+			branch: push.branch || "master",
+			defaultBranch: repo.defaultBranch || "master",
 			author: {
-				login: push.after.author?.login,
-				name: push.after.author?.person?.name,
-				email: push.after.author?.person?.emails?.[0]?.address,
+				login: push.after?.author?.login || "atomist-bot",
+				name: push.after?.author?.person?.name || "Atomist Bot",
+				email:
+					push.after?.author?.person?.emails?.[0]?.address ||
+					"bot@atomist.com",
 			},
 		},
 		{

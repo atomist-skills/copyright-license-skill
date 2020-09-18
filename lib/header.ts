@@ -22,7 +22,6 @@ import * as path from "path";
 import * as spdx from "spdx-license-list/full";
 import { SkillConfiguration } from "./configuration";
 import { spdxLicenseHeaders } from "./licenseHeaders";
-import { OnPushSubscription } from "./typings/types";
 
 const commentTypes = [
 	{
@@ -80,6 +79,7 @@ export async function fixCopyrightLicenseHeader(
 		warnings.push("No license configured");
 		return warnings;
 	}
+	const copyrightHolder = args.copyrightHolder || args.push.owner;
 
 	const extensions = commentTypes
 		.map(ct => ct.extensions)
@@ -108,7 +108,7 @@ export async function fixCopyrightLicenseHeader(
 	}
 
 	const header = licenseHeader({
-		copyrightHolder: args.copyrightHolder,
+		copyrightHolder,
 		id: args.license,
 	});
 	for (const file of files) {
@@ -157,13 +157,17 @@ function updateCopyrightYear(args: UpdateCopyrightYearArgs): boolean {
 /** Arguments to [[changedFiles]] */
 interface ChangedFilesArgs {
 	project: project.Project;
-	push: OnPushSubscription["Push"][0];
+	push: {
+		commits: number;
+		owner: string;
+		sha: string;
+	};
 }
 
 /** Return array of files changed in push */
 async function changedFiles(args: ChangedFilesArgs): Promise<string[]> {
-	const sha = args.push.after.sha;
-	const commits = args.push.commits.length || 1;
+	const sha = args.push.sha;
+	const commits = args.push.commits;
 	const diffResult = await args.project.exec("git", [
 		"diff",
 		"--name-only",
