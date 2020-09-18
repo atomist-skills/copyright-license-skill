@@ -295,10 +295,11 @@ export function prefixHeader(args: PrefixHeaderArgs): string {
 	if (!args.header) {
 		return args.header;
 	}
+	const prefix = args.prefix === ";" ? ";;" : args.prefix;
 	return (
 		args.header
 			.split("\n")
-			.map(l => `${args.prefix} ${l}`.trimEnd())
+			.map(l => `${prefix} ${l}`.trimEnd())
 			.join("\n") + "\n"
 	);
 }
