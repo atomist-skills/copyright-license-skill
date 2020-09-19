@@ -353,13 +353,20 @@ export function updateCopyrightHeader(args: UpdateCopyrightHeaderArgs): string {
 		);
 		if (preambleMatch) {
 			const cut = preambleMatch[0].length;
+			const before = args.content.substring(0, cut);
+			const after = args.content.substring(cut);
 			return (
-				args.content.substring(0, cut) +
+				before +
 				header +
-				args.content.substring(cut)
+				(RegExp(`^${newline}`).test(after) ? "" : "\n") +
+				after
 			);
 		} else {
-			return header + args.content;
+			return (
+				header +
+				(RegExp(`^${newline}`).test(args.content) ? "" : "\n") +
+				args.content
+			);
 		}
 	}
 }

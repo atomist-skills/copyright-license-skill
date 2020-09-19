@@ -78,7 +78,6 @@ import { headerRegExp, licenseHeader } from "../lib/header";
 //
 // Licensed under the BSD 3-Clause "New" or "Revised" License;
 // you may not use this file except in compliance with the License.
-
 #include <stdio.h>;
 int main() {
     return 0;
@@ -943,6 +942,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.`;
 //
 // Licensed under the 0BSD license;
 // you may not use this file except in compliance with the License.
+
 #include <math.h>
 int main() {
   return pow(1, 0);
