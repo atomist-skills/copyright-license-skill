@@ -78,6 +78,13 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 				"Copyright license headers are only ever _updated_ in changed files.",
 			required: false,
 		},
+		blockComment: {
+			type: ParameterType.Boolean,
+			displayName: "Use block-style comments",
+			description:
+				"Use block-style comments (`/* … */`) for copyright license header if language supports it.",
+			required: false,
+		},
 		commitMessage: {
 			type: ParameterType.String,
 			displayName: "Commit message",

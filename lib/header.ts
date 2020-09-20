@@ -61,6 +61,7 @@ const commentTypes = [
 export type FixCopyrightLicenseHeaderArgs = ChangedFilesArgs &
 	Pick<
 		SkillConfiguration,
+		| "blockComment"
 		| "copyrightHolder"
 		| "fileGlob"
 		| "ignoreGlobs"
@@ -288,6 +289,18 @@ export interface PrefixHeaderArgs {
 	header: string;
 	/** Comment prefix */
 	prefix: string;
+	/**
+	 * If true, use block-style comment for header if language
+	 * supports it.
+	 */
+	blockComment?: boolean;
+}
+
+/** Return true if blockComment is true and prefix is "//". */
+function useBlockComment(
+	args: Pick<PrefixHeaderArgs, "prefix" | "blockComment">,
+): boolean {
+	return !!args.blockComment && args.prefix === "//";
 }
 
 /** Prepend each line of comment header with comment prefix. */
@@ -295,18 +308,25 @@ export function prefixHeader(args: PrefixHeaderArgs): string {
 	if (!args.header) {
 		return args.header;
 	}
-	const prefix = args.prefix === ";" ? ";;" : args.prefix;
-	return (
-		args.header
-			.split("\n")
-			.map(l => `${prefix} ${l}`.trimEnd())
-			.join("\n") + "\n"
-	);
+	const blockComment = useBlockComment(args);
+	let prefix = args.prefix;
+	if (prefix === ";") {
+		prefix = ";;";
+	} else if (blockComment) {
+		prefix = " *";
+	}
+	const headerLines = args.header.split("\n");
+	const prefixedLines = headerLines.map(l => `${prefix} ${l}`.trimEnd());
+	if (blockComment) {
+		prefixedLines.unshift("/*");
+		prefixedLines.push(" */");
+	}
+	return prefixedLines.join("\n") + "\n";
 }
 
 /** Arguments to [[updateCopyrightHeader]]. */
 export interface UpdateCopyrightHeaderArgs
-	extends Pick<PrefixHeaderArgs, "header"> {
+	extends Pick<PrefixHeaderArgs, "header" | "blockComment"> {
 	/** Current file content. */
 	content: string;
 	/** File name */

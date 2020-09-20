@@ -874,6 +874,26 @@ limitations under the License.`;
 			assert(h === e);
 		});
 
+		it("prepends C block comment", () => {
+			const c = `Copyright © 2020 Atomist, Inc.
+
+Licensed under the Apache License, Version 1.0;
+you may not use this file except in compliance with the License.`;
+			const h = prefixHeader({
+				blockComment: true,
+				header: c,
+				prefix: "//",
+			});
+			const e = `/*
+ * Copyright © 2020 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 1.0;
+ * you may not use this file except in compliance with the License.
+ */
+`;
+			assert(h === e);
+		});
+
 		it("prepends script comment", () => {
 			const c = `Copyright © 2015 Atomist, Inc.
 
@@ -903,7 +923,11 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.`;
-			const h = prefixHeader({ header: c, prefix: ";" });
+			const h = prefixHeader({
+				blockComment: true,
+				header: c,
+				prefix: ";",
+			});
 			const e = `;; Copyright (c) 1999 Atomist, Inc.
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -951,6 +975,30 @@ int main() {
 			assert(c === e);
 		});
 
+		it("adds copyright header as block comment", () => {
+			const a = {
+				content: `#include <math.h>\nint main() {\n  return pow(1, 0);\n}\n`,
+				file: "anodyne.c",
+				header: `Copyright © 2018 Atomist, Inc.\n\nLicensed under the 0BSD license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: false,
+				blockComment: true,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `/*
+ * Copyright © 2018 Atomist, Inc.
+ *
+ * Licensed under the 0BSD license;
+ * you may not use this file except in compliance with the License.
+ */
+
+#include <math.h>
+int main() {
+  return pow(1, 0);
+}
+`;
+			assert(c === e);
+		});
+
 		it("does not update copyright year", () => {
 			const a = {
 				content: `; Copyright © 2015 Atomist, Inc.
@@ -980,6 +1028,7 @@ echo bye
 				file: "gram.ksh",
 				header: `Copyright © ${y} Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
 				updateYear: true,
+				blockComment: true,
 			};
 			const c = updateCopyrightHeader(a);
 			const e = `#!/bin/sh
@@ -1012,6 +1061,35 @@ fun main(args : Array<String>) {
 			};
 			const c = updateCopyrightHeader(a);
 			assert(c === a.content);
+		});
+
+		it("replaces copyright header with block comment", () => {
+			const a = {
+				content: `// Copyright © 2015 Atomist, Inc.
+//
+// Licensed under the 0BSD license;
+// you may not use this file except in compliance with the License.
+
+#include <math.h>\nint main() {\n  return pow(1, 0);\n}\n`,
+				file: "anodyne.c",
+				header: `Copyright © 2019 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: true,
+				blockComment: true,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `/*
+ * Copyright © 2019 Atomist, Inc.
+ *
+ * Licensed under the MIT license;
+ * you may not use this file except in compliance with the License.
+ */
+
+#include <math.h>
+int main() {
+  return pow(1, 0);
+}
+`;
+			assert(c === e);
 		});
 	});
 });

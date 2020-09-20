@@ -20,6 +20,8 @@ import { parameter } from "@atomist/skill";
 export interface SkillConfiguration {
 	/** How to persist changes back to the repository */
 	push: parameter.PushStrategy;
+	/** Use block-style comments if language supports it */
+	blockComment?: boolean;
 	/** Override default commit message */
 	commitMessage?: string;
 	/** Copyright holder */
