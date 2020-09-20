@@ -255,7 +255,7 @@ export function copyrightHeaderRegExp(prefix: string): RegExp {
 	const lc = lineComment(prefix);
 	const lineHeader = `${horizontalSpace}*${prefix}.*${copyright}.*${newline}(?:${lc})*`;
 	if (prefix === "//") {
-		const blockHeader = `${horizontalSpace}*/\\*[\\S\\s]*?${copyright}[\\S\\s]*?\\*/`;
+		const blockHeader = `${horizontalSpace}*/\\*[\\S\\s]*?${copyright}[\\S\\s]*?\\*/${horizontalSpace}*${newline}?`;
 		return new RegExp(`(?:${lineHeader}|${blockHeader})`, "i");
 	} else {
 		return new RegExp(lineHeader, "i");

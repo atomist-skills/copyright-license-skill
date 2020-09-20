@@ -66,7 +66,8 @@ import { headerRegExp, licenseHeader } from "../lib/header";
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */`,
+ */
+`,
 			);
 			assert(m[1] === undefined);
 			assert(m[2] === "2020");
@@ -874,7 +875,7 @@ limitations under the License.`;
 			assert(h === e);
 		});
 
-		it("prepends C block comment", () => {
+		it("creates C block comment", () => {
 			const c = `Copyright © 2020 Atomist, Inc.
 
 Licensed under the Apache License, Version 1.0;
@@ -1186,6 +1187,41 @@ int main() {
 			const c = updateCopyrightHeader(a);
 			const e = `/*
  * Copyright © 2019 Atomist, Inc.
+ *
+ * Licensed under the MIT license;
+ * you may not use this file except in compliance with the License.
+ */
+
+
+
+#include <math.h>
+int main() {
+  return pow(1, 0);
+}
+`;
+			assert(c === e);
+		});
+
+		it("replaces block header with block comment retaining space", () => {
+			const a = {
+				content: `/*
+ * Copyright © 2015 Atomist, Inc.
+ *
+ * Licensed under the 0BSD license;
+ * you may not use this file except in compliance with the License.
+ */
+
+
+
+#include <math.h>\nint main() {\n  return pow(1, 0);\n}\n`,
+				file: "anodyne.c",
+				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: true,
+				blockComment: true,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `/*
+ * Copyright © 2021 Atomist, Inc.
  *
  * Licensed under the MIT license;
  * you may not use this file except in compliance with the License.
