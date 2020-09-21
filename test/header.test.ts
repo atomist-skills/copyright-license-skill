@@ -857,7 +857,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.`;
-			const h = prefixHeader({ header: c, prefix: "//" });
+			const h = prefixHeader({
+				blockComment: false,
+				header: c,
+				prefix: "//",
+			});
 			const e = `// Copyright © 2020 Atomist, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -900,7 +904,11 @@ you may not use this file except in compliance with the License.`;
 
 Licensed under the MIT license;
 you may not use this file except in compliance with the License.`;
-			const h = prefixHeader({ header: c, prefix: "#" });
+			const h = prefixHeader({
+				blockComment: false,
+				header: c,
+				prefix: "#",
+			});
 			const e = `# Copyright © 2015 Atomist, Inc.
 #
 # Licensed under the MIT license;
@@ -949,7 +957,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.`;
 
 		it("does nothing successfully", () => {
 			const c = ``;
-			const h = prefixHeader({ header: c, prefix: "//" });
+			const h = prefixHeader({
+				blockComment: false,
+				header: c,
+				prefix: "//",
+			});
 			assert(h === c);
 		});
 	});
@@ -957,6 +969,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.`;
 	describe("updateCopyrightHeader", () => {
 		it("adds copyright header", () => {
 			const a = {
+				blockComment: false,
 				content: `#include <math.h>\nint main() {\n  return pow(1, 0);\n}\n`,
 				file: "anodyne.c",
 				header: `Copyright © 2015 Atomist, Inc.\n\nLicensed under the 0BSD license;\nyou may not use this file except in compliance with the License.`,
@@ -1002,6 +1015,7 @@ int main() {
 
 		it("adds copyright header removing extra space", () => {
 			const a = {
+				blockComment: false,
 				content: `\n\n\n\n#include <math.h>\nint main() {\n  return pow(1, 0);\n}\n`,
 				file: "anodyne.c",
 				header: `Copyright © 2015 Atomist, Inc.\n\nLicensed under the 0BSD license;\nyou may not use this file except in compliance with the License.`,
@@ -1023,11 +1037,11 @@ int main() {
 
 		it("adds block copyright header removing extra space", () => {
 			const a = {
+				blockComment: true,
 				content: `\n\n\n\n#include <math.h>\nint main() {\n  return pow(1, 0);\n}\n`,
 				file: "anodyne.c",
 				header: `Copyright © 2018 Atomist, Inc.\n\nLicensed under the 0BSD license;\nyou may not use this file except in compliance with the License.`,
 				updateYear: false,
-				blockComment: true,
 			};
 			const c = updateCopyrightHeader(a);
 			const e = `/*
@@ -1047,6 +1061,7 @@ int main() {
 
 		it("does not update copyright year", () => {
 			const a = {
+				blockComment: false,
 				content: `; Copyright © 2015 Atomist, Inc.
 ;
 ; Licensed under the MIT license;
@@ -1090,6 +1105,7 @@ echo bye
 		it("recognizes copyright year is up to date", () => {
 			const y = new Date().getFullYear().toString(10);
 			const a = {
+				blockComment: false,
 				content: `/*
  * Copyright © ${y} Atomist, Inc.
  *
@@ -1111,6 +1127,7 @@ fun main(args : Array<String>) {
 
 		it("replaces copyright header with block comment", () => {
 			const a = {
+				blockComment: true,
 				content: `// Copyright © 2015 Atomist, Inc.
 //
 // Licensed under the 0BSD license;
@@ -1120,7 +1137,6 @@ fun main(args : Array<String>) {
 				file: "anodyne.c",
 				header: `Copyright © 2019 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
 				updateYear: true,
-				blockComment: true,
 			};
 			const c = updateCopyrightHeader(a);
 			const e = `/*
@@ -1140,6 +1156,7 @@ int main() {
 
 		it("replaces copyright header retaining space", () => {
 			const a = {
+				blockComment: false,
 				content: `// Copyright © 2015 Atomist, Inc.
 //
 // Licensed under the 0BSD license;
@@ -1151,7 +1168,6 @@ int main() {
 				file: "anodyne.c",
 				header: `Copyright © 2019 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
 				updateYear: true,
-				blockComment: false,
 			};
 			const c = updateCopyrightHeader(a);
 			const e = `// Copyright © 2019 Atomist, Inc.
@@ -1171,6 +1187,7 @@ int main() {
 
 		it("replaces copyright header with block comment retaining space", () => {
 			const a = {
+				blockComment: true,
 				content: `// Copyright © 2015 Atomist, Inc.
 //
 // Licensed under the 0BSD license;
@@ -1182,7 +1199,6 @@ int main() {
 				file: "anodyne.c",
 				header: `Copyright © 2019 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
 				updateYear: true,
-				blockComment: true,
 			};
 			const c = updateCopyrightHeader(a);
 			const e = `/*

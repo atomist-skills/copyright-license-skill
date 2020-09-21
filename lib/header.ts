@@ -94,8 +94,9 @@ export async function fixCopyrightLicenseHeader(
 		warnings.push(`Failed to get list of changed files: ${e.message}`);
 		changed = [];
 	}
+	const onlyChanged = args.onlyChanged || false;
 	let files: string[] | undefined;
-	if (args.onlyChanged) {
+	if (onlyChanged) {
 		files = micromatch(changed, [fileGlob], { ignore: args.ignoreGlobs });
 	} else {
 		files = await fg(fileGlob, {
@@ -112,15 +113,17 @@ export async function fixCopyrightLicenseHeader(
 		copyrightHolder,
 		id: args.license,
 	});
+	const blockComment = args.blockComment || false;
 	for (const file of files) {
 		try {
 			const filePath = args.project.path(file);
 			const content = await fs.readFile(filePath, "utf8");
 			const newContent = updateCopyrightHeader({
+				blockComment,
 				content,
 				file,
 				header,
-				updateYear: updateCopyrightYear({ ...args, changed, file }),
+				updateYear: updateCopyrightYear({ changed, file, onlyChanged }),
 			});
 			if (newContent !== content) {
 				await fs.writeFile(filePath, newContent);
@@ -140,7 +143,7 @@ interface UpdateCopyrightYearArgs {
 	/** File name to consider */
 	file: string;
 	/** If true, [[file]] can be assumed to be in [[changed]] */
-	onlyChanged?: boolean;
+	onlyChanged: boolean;
 }
 
 /**
@@ -285,22 +288,22 @@ export function preambleRegExp(prefix: string): RegExp {
 
 /** Arguments to [[prefixHeader]]. */
 export interface PrefixHeaderArgs {
-	/** Desired header */
-	header: string;
-	/** Comment prefix */
-	prefix: string;
 	/**
 	 * If true, use block-style comment for header if language
 	 * supports it.
 	 */
-	blockComment?: boolean;
+	blockComment: boolean;
+	/** Desired header */
+	header: string;
+	/** Comment prefix */
+	prefix: string;
 }
 
 /** Return true if blockComment is true and prefix is "//". */
 function useBlockComment(
 	args: Pick<PrefixHeaderArgs, "prefix" | "blockComment">,
 ): boolean {
-	return !!args.blockComment && args.prefix === "//";
+	return args.blockComment && args.prefix === "//";
 }
 
 /** Prepend each line of comment header with comment prefix. */
