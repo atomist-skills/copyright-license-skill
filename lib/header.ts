@@ -48,12 +48,23 @@ const commentTypes = [
 	{
 		prefix: ";",
 		family: "Lisp",
-		extensions: ["cl", "clj", "cljs", "el", "lisp", "lsp", "scm"],
+		extensions: ["cl", "clj", "cljs", "edn", "el", "lisp", "lsp", "scm"],
 	},
 	{
 		prefix: "#",
 		family: "Script",
-		extensions: ["bash", "csh", "ksh", "pl", "py", "rb", "sh", "tcsh"],
+		extensions: [
+			"bash",
+			"csh",
+			"ksh",
+			"pl",
+			"py",
+			"rb",
+			"sh",
+			"tcsh",
+			"yaml",
+			"yml",
+		],
 	},
 ];
 

@@ -1220,6 +1220,7 @@ int main() {
 
 		it("replaces block header with block comment retaining space", () => {
 			const a = {
+				blockComment: true,
 				content: `/*
  * Copyright © 2015 Atomist, Inc.
  *
@@ -1233,7 +1234,6 @@ int main() {
 				file: "anodyne.c",
 				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
 				updateYear: true,
-				blockComment: true,
 			};
 			const c = updateCopyrightHeader(a);
 			const e = `/*
@@ -1249,6 +1249,28 @@ int main() {
 int main() {
   return pow(1, 0);
 }
+`;
+			assert(c === e);
+		});
+
+		it("adds header to YAML", () => {
+			const a = {
+				blockComment: true,
+				content: `foo:\n  bar:\n  - baz\n  - 1763\n`,
+				file: "a.yaml",
+				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: false,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `# Copyright © 2021 Atomist, Inc.
+#
+# Licensed under the MIT license;
+# you may not use this file except in compliance with the License.
+
+foo:
+  bar:
+  - baz
+  - 1763
 `;
 			assert(c === e);
 		});
