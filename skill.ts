@@ -27,7 +27,7 @@ import { SkillConfiguration } from "./lib/configuration";
 
 export const Skill = skill<SkillConfiguration & { repos: any }>({
 	displayName: "Copyright License",
-	categories: [Category.Deploy, Category.DevOps],
+	categories: [Category.ProjectManagement],
 
 	resourceProviders: {
 		github: resourceProvider.gitHub({ minRequired: 1 }),
