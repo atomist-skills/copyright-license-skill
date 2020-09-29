@@ -390,6 +390,8 @@ export function updateCopyrightHeader(args: UpdateCopyrightHeaderArgs): string {
 			const before = args.content.substring(0, cut);
 			const after = args.content.substring(cut);
 			return before + header + "\n" + after.trimStart();
+		} else if (!args.content.trim()) {
+			return header;
 		} else {
 			return header + "\n" + args.content.trimStart();
 		}

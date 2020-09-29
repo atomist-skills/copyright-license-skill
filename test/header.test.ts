@@ -1274,5 +1274,43 @@ foo:
 `;
 			assert(c === e);
 		});
+
+		it("adds header to empty file", () => {
+			const a = {
+				blockComment: true,
+				content: ``,
+				file: "empty.test.ts",
+				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: false,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `/*
+ * Copyright © 2021 Atomist, Inc.
+ *
+ * Licensed under the MIT license;
+ * you may not use this file except in compliance with the License.
+ */
+`;
+			assert(c === e);
+		});
+
+		it("adds header to file with just space", () => {
+			const a = {
+				blockComment: true,
+				content: `   \n\n  \n`,
+				file: "empty.test.ts",
+				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: false,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `/*
+ * Copyright © 2021 Atomist, Inc.
+ *
+ * Licensed under the MIT license;
+ * you may not use this file except in compliance with the License.
+ */
+`;
+			assert(c === e);
+		});
 	});
 });
