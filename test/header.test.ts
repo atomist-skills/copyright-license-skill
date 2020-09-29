@@ -1298,17 +1298,15 @@ foo:
 			const a = {
 				blockComment: true,
 				content: `   \n\n  \n`,
-				file: "empty.test.ts",
+				file: "nil.cl",
 				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
 				updateYear: false,
 			};
 			const c = updateCopyrightHeader(a);
-			const e = `/*
- * Copyright © 2021 Atomist, Inc.
- *
- * Licensed under the MIT license;
- * you may not use this file except in compliance with the License.
- */
+			const e = `;; Copyright © 2021 Atomist, Inc.
+;;
+;; Licensed under the MIT license;
+;; you may not use this file except in compliance with the License.
 `;
 			assert(c === e);
 		});
