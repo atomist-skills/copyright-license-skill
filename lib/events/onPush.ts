@@ -20,15 +20,15 @@ import {
 	repository,
 	secret,
 	status,
+	subscription,
 } from "@atomist/skill";
 import * as fs from "fs-extra";
 import { SkillConfiguration } from "../configuration";
 import { fixCopyrightLicenseHeader } from "../header";
 import { ensureLicense, findLicense, licenseMatcher } from "../license";
-import { OnPushSubscription } from "../typings/types";
 
 export const handler: EventHandler<
-	OnPushSubscription,
+	subscription.types.OnPushSubscription,
 	SkillConfiguration
 > = async ctx => {
 	const push = ctx.data.Push?.[0];
@@ -39,7 +39,7 @@ export const handler: EventHandler<
 	if (branch.startsWith("atomist/")) {
 		return status.success(`Ignore generated branch ${branch}`).hidden();
 	}
-	const config = ctx.configuration[0];
+	const config = ctx.configuration;
 	const repo = push.repo;
 	if (!repo || !repo.owner || !repo.name) {
 		return status.success("No repo").hidden();
