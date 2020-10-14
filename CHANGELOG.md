@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/copyright-license-skill/compare/0.1.0...HEAD)
 
+### Changed
+
+-   Remove single dispatch. [#13](https://github.com/atomist-skills/copyright-license-skill/issues/13)
+
 ### Fixed
 
 -   Do not have trailing space when adding header to empty file. [#2](https://github.com/atomist-skills/copyright-license-skill/issues/2)
