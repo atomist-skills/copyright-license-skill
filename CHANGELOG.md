@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/copyright-license-skill/compare/0.1.1...HEAD)
 
+### Changed
+
+-   Update skill category. [fabe18a](https://github.com/atomist-skills/copyright-license-skill/commit/fabe18ad1726eb76db95d8d3e5463811cdfc9549)
+
 ## [0.1.1](https://github.com/atomist-skills/copyright-license-skill/compare/0.1.0...0.1.1) - 2020-10-14
 
 ### Changed
