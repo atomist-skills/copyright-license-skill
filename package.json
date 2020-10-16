@@ -11,7 +11,7 @@
   "homepage": "https://github.com/atomist-skills/copyright-license-skill#readme",
   "license": "Apache-2.0",
   "dependencies": {
-    "@atomist/skill": "^0.3.0",
+    "@atomist/skill": "^0.3.1",
     "fast-glob": "^3.2.4",
     "fs-extra": "^9.0.1",
     "micromatch": "^4.0.2",
