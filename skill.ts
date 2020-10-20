@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Atomist, Inc.
+ * Copyright © 2019 Atomist, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import * as spdx from "spdx-license-list";
 import { SkillConfiguration } from "./lib/configuration";
 
 export const Skill = skill<SkillConfiguration & { repos: any }>({
+	description:
+		"Maintain repository license files and source code copyright headers",
 	displayName: "Copyright License",
 	categories: [Category.RepoManagement],
 
@@ -60,6 +62,8 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 			displayName: "Matching glob pattern",
 			description:
 				"Glob pattern of files to manage copyright and license header",
+			placeHolder:
+				"**/*.@(c|cc|cpp|cs|cxx|go|h|java|js|kt|m|php|scala|swift|ts|cl|clj|cljs|edn|el|lisp|lsp|scm|bash|csh|ksh|pl|py|rb|sh|tcsh|yaml|yml)",
 			required: false,
 		},
 		ignoreGlobs: {
