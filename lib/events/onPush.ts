@@ -121,13 +121,13 @@ export const handler: EventHandler<
 	}
 
 	try {
-		const warnings = await fixCopyrightLicenseHeader({
+		const logs = await fixCopyrightLicenseHeader({
 			...config.parameters,
 			project,
 			push: { commits, owner: repo.owner, sha },
 		});
-		for (const warning of warnings) {
-			await ctx.audit.log(warning);
+		for (const log of logs) {
+			await ctx.audit.log(log);
 		}
 	} catch (e) {
 		const reason = `Failed to update copyright licence headers: ${e.message}`;

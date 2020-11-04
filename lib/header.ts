@@ -95,10 +95,10 @@ export type FixCopyrightLicenseHeaderArgs = ChangedFilesArgs &
 export async function fixCopyrightLicenseHeader(
 	args: FixCopyrightLicenseHeaderArgs,
 ): Promise<string[]> {
-	const warnings: string[] = [];
+	const logs: string[] = [];
 	if (!args.license) {
-		warnings.push("No license configured");
-		return warnings;
+		logs.push("No license configured");
+		return logs;
 	}
 	const copyrightHolder = args.copyrightHolder || args.push.owner;
 
@@ -108,7 +108,7 @@ export async function fixCopyrightLicenseHeader(
 	try {
 		changed = await changedFiles(args);
 	} catch (e) {
-		warnings.push(`Failed to get list of changed files: ${e.message}`);
+		logs.push(`Failed to get list of changed files: ${e.message}`);
 		changed = [];
 	}
 	const onlyChanged = args.onlyChanged || false;
@@ -122,9 +122,10 @@ export async function fixCopyrightLicenseHeader(
 		});
 	}
 	if (!files || files.length < 1) {
-		warnings.push(`No matching files found`);
-		return warnings;
+		logs.push(`No matching files found`);
+		return logs;
 	}
+	logs.push(`Matched ${files.length} files`);
 
 	const header = licenseHeader({
 		copyrightHolder,
@@ -146,11 +147,11 @@ export async function fixCopyrightLicenseHeader(
 				await fs.writeFile(filePath, newContent);
 			}
 		} catch (e) {
-			warnings.push(`Failed to process '${file}': ${e.message}`);
+			logs.push(`Failed to process '${file}': ${e.message}`);
 		}
 	}
 
-	return warnings;
+	return logs;
 }
 
 /** Arguments to [[updateYear]]. */
