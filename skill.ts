@@ -24,6 +24,7 @@ import {
 } from "@atomist/skill";
 import * as spdx from "spdx-license-list";
 import { SkillConfiguration } from "./lib/configuration";
+import { defaultFileGlob } from "./lib/header";
 
 export const Skill = skill<SkillConfiguration & { repos: any }>({
 	description:
@@ -57,13 +58,12 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 			placeHolder: "Your Company, Inc.",
 			required: false,
 		},
-		fileGlob: {
-			type: ParameterType.String,
-			displayName: "Matching glob pattern",
+		fileGlobs: {
+			type: ParameterType.StringArray,
+			displayName: "Matching glob patterns",
 			description:
-				"Glob pattern of files to manage copyright and license header",
-			placeHolder:
-				"**/*.@(c|cc|cpp|cs|cxx|go|h|java|js|kt|m|php|scala|swift|ts|cl|clj|cljs|edn|el|lisp|lsp|scm|bash|csh|ksh|pl|py|rb|sh|tcsh|yaml|yml)",
+				"Glob patterns of files to manage copyright and license header. " +
+				`The default is the single element \`${defaultFileGlob}\``,
 			required: false,
 		},
 		ignoreGlobs: {

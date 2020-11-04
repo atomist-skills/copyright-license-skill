@@ -23,6 +23,7 @@ import * as spdx from "spdx-license-list/full";
 import { SkillConfiguration } from "./configuration";
 import { spdxLicenseHeaders } from "./licenseHeaders";
 
+/** Supported comment types and their file extensions. */
 const commentTypes = [
 	{
 		prefix: "//",
@@ -68,13 +69,21 @@ const commentTypes = [
 	},
 ];
 
+/** All supported file extensions. */
+const commentExtensions = commentTypes
+	.map(ct => ct.extensions)
+	.reduce((pre, cur) => pre.concat(cur), []); // flatten
+
+/** Glob pattern of all supported file extensions. */
+export const defaultFileGlob = `**/*.@(${commentExtensions.join("|")})`;
+
 /** Arguments to [[fixCopyrightLicenseHeader]] */
 export type FixCopyrightLicenseHeaderArgs = ChangedFilesArgs &
 	Pick<
 		SkillConfiguration,
 		| "blockComment"
 		| "copyrightHolder"
-		| "fileGlob"
+		| "fileGlobs"
 		| "ignoreGlobs"
 		| "license"
 		| "onlyChanged"
@@ -93,10 +102,7 @@ export async function fixCopyrightLicenseHeader(
 	}
 	const copyrightHolder = args.copyrightHolder || args.push.owner;
 
-	const extensions = commentTypes
-		.map(ct => ct.extensions)
-		.reduce((pre, cur) => pre.concat(cur), []); // flatten
-	const fileGlob = args.fileGlob || `**/*.@(${extensions.join("|")})`;
+	const fileGlobs = args.fileGlobs || [defaultFileGlob];
 
 	let changed: string[];
 	try {
@@ -108,9 +114,9 @@ export async function fixCopyrightLicenseHeader(
 	const onlyChanged = args.onlyChanged || false;
 	let files: string[] | undefined;
 	if (onlyChanged) {
-		files = micromatch(changed, [fileGlob], { ignore: args.ignoreGlobs });
+		files = micromatch(changed, fileGlobs, { ignore: args.ignoreGlobs });
 	} else {
-		files = await fg(fileGlob, {
+		files = await fg(fileGlobs, {
 			cwd: args.project.path(),
 			ignore: args.ignoreGlobs,
 		});

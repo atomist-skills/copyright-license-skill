@@ -27,7 +27,7 @@ export interface SkillConfiguration {
 	/** Copyright holder */
 	copyrightHolder?: string;
 	/** Glob pattern for files to search rather than all recognized files */
-	fileGlob?: string;
+	fileGlobs?: string[];
 	/** Glob patterns for files to ignore */
 	ignoreGlobs?: string[];
 	/** Labels to add to pull request */
