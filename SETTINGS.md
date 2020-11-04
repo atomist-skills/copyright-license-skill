@@ -10,11 +10,12 @@ Connect and configure the required [**GitHub**][github] integration.
 
     ![Select license](docs/images/license.png)
 
-    Select one of the [SPDX open source licenses][spdx] from the list. If you do
-    not select a license, the skill will look for license file in the repository
-    and attempts to determine what license it is. To find the file, it does a
-    case-insensitive match in the root of the repository for files matching
-    `license` or `license.*`.
+    Select one of the
+    [SPDX open source licenses](https://spdx.org/licenses/ "SPDX License List")
+    from the list. If you do not select a license, the skill will look for
+    license file in the repository and attempts to determine what license it is.
+    To find the file, it does a case-insensitive match in the root of the
+    repository for files matching `license` or `license.*`.
 
 2.  **Copyright holder**
 
@@ -23,14 +24,15 @@ Connect and configure the required [**GitHub**][github] integration.
     Enter the copyright holder of the files in the repository. This is typically
     your name or your company name, e.g., `Atomist, Inc.`.
 
-3.  **Matching glob pattern**
+3.  **Matching glob patterns**
 
     ![Glob pattern](docs/images/matching-glob-pattern.png)
 
-    If you want to override the default [glob pattern][glob] used to match files
-    to scan for copyright/license headers, you can provide it here. Don't forget
-    to begin your glob pattern with `**/` to ensure the skill looks in all
-    subdirectories of your repositories.
+    If you want to override the default
+    [glob pattern](https://github.com/mrmlnc/fast-glob#pattern-syntax "Glob pattern syntax")
+    used to match files to scan for copyright/license headers, you can provide
+    glob patterns here. Don't forget to begin your glob pattern with `**/` to
+    ensure the skill looks in all subdirectories of your repositories.
 
 4.  **Ignore glob patterns**
 
@@ -90,7 +92,8 @@ Connect and configure the required [**GitHub**][github] integration.
     Add additional labels to pull requests raised by this skill.
 
     This is useful to influence how and when the PR should be auto-merged by the
-    [Auto-Merge Pull Requests][auto-merge] skill.
+    [Auto-Merge Pull Requests](https://go.atomist.com/catalog/skills/atomist/github-auto-merge-skill "Atomist Auto-Merge Pull Request Skill")
+    skill.
 
 9.  **Which repositories**
 
@@ -106,9 +109,3 @@ Connect and configure the required [**GitHub**][github] integration.
 
     Save your configuration and activate the skill by clicking the "Enable
     skill" button.
-
-[spdx]: https://spdx.org/licenses/ "SPDX License List"
-[glob]: https://github.com/mrmlnc/fast-glob#pattern-syntax "Glob pattern syntax"
-[auto-merge]:
-    https://go.atomist.com/catalog/skills/atomist/github-auto-merge-skill
-    "Atomist Auto-Merge Pull Request Skill"

@@ -62,15 +62,16 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 			type: ParameterType.StringArray,
 			displayName: "Matching glob patterns",
 			description:
-				"Glob patterns of files to manage copyright and license header. " +
-				`The default is the single element \`${defaultFileGlob}\``,
+				"Manage the copyright/license header in files matching the provided glob patterns. " +
+				"If no glob patterns are provided, the skill matches all files it knows how to manage, " +
+				`specifically, files matching the \`${defaultFileGlob}\` glob pattern.`,
 			required: false,
 		},
 		ignoreGlobs: {
 			type: ParameterType.StringArray,
 			displayName: "Ignore glob patterns",
 			description:
-				"Glob patterns of files to not manage copyright and license header",
+				"Glob patterns of files to not manage copyright/license header",
 			required: false,
 		},
 		onlyChanged: {
