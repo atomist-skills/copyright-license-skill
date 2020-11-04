@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/copyright-license-skill/compare/0.2.0...HEAD)
 
+### Changed
+
+-   Migrate to standard glob usage pattern. [935b799](https://github.com/atomist-skills/copyright-license-skill/commit/935b79996a73046593c9868adbab84334653417d)
+
 ## [0.2.0](https://github.com/atomist-skills/copyright-license-skill/compare/0.1.1...0.2.0) - 2020-10-16
 
 ### Changed
