@@ -17,14 +17,14 @@ Connect and configure the required [**GitHub**][github] integration.
     To find the file, it does a case-insensitive match in the root of the
     repository for files matching `license` or `license.*`.
 
-2.  **Copyright holder**
+1.  **Copyright holder**
 
     ![Copyright holder](docs/images/copyright-holder.png)
 
     Enter the copyright holder of the files in the repository. This is typically
     your name or your company name, e.g., `Atomist, Inc.`.
 
-3.  **Matching glob patterns**
+1.  **Matching glob patterns**
 
     ![Glob pattern](docs/images/matching-glob-pattern.png)
 
@@ -34,14 +34,14 @@ Connect and configure the required [**GitHub**][github] integration.
     glob patterns here. Don't forget to begin your glob pattern with `**/` to
     ensure the skill looks in all subdirectories of your repositories.
 
-4.  **Ignore glob patterns**
+1.  **Ignore glob patterns**
 
     ![Ignore glob patterns](docs/images/ignore-glob-pattern.png)
 
     If there are specific files you want to exclude from management by this
     skill, you can enter file names and/or glob patterns here.
 
-5.  **Consider only changed files**
+1.  **Consider only changed files**
 
     ![Changed files](docs/images/changed-files.png)
 
@@ -50,7 +50,7 @@ Connect and configure the required [**GitHub**][github] integration.
     license headers to files that are modified by other commits, leave this
     option selected.
 
-6.  **Use block-style comments**
+1.  **Use block-style comments**
 
     ![Block-style comments](docs/images/block-comment.png)
 
@@ -58,7 +58,7 @@ Connect and configure the required [**GitHub**][github] integration.
     i.e., `/* … */`, in file types that support that commenting style, select
     this option.
 
-7.  **Commit Strategy**
+1.  **Commit Strategy**
 
     ![Fix strategy](docs/images/commit-strategy.png)
 
@@ -85,7 +85,7 @@ Connect and configure the required [**GitHub**][github] integration.
     are not needed any longer, i.e., because all lint violations were fixed
     manually, are closed automatically.
 
-8.  **Pull request labels**
+1.  **Pull request labels**
 
     ![Pull request labels](docs/images/pr-labels.png)
 
@@ -95,7 +95,7 @@ Connect and configure the required [**GitHub**][github] integration.
     [Auto-Merge Pull Requests](https://go.atomist.com/catalog/skills/atomist/github-auto-merge-skill "Atomist Auto-Merge Pull Request Skill")
     skill.
 
-9.  **Which repositories**
+1.  **Determine repository scope**
 
     ![Repository filter](docs/images/repo-filter.png)
 
@@ -105,7 +105,7 @@ Connect and configure the required [**GitHub**][github] integration.
     To restrict the organizations or specific repositories on which the skill
     will run, you can explicitly choose organizations and repositories.
 
-10. **Activate the skill**
+1.  **Activate the skill**
 
     Save your configuration and activate the skill by clicking the "Enable
     skill" button.
