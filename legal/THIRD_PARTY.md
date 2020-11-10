@@ -215,7 +215,7 @@ ISC License - [https://www.isc.org/downloads/software-support-policy/isc-license
 | `semver`                    | `7.3.2`   |                    | [https://github.com/npm/node-semver](https://github.com/npm/node-semver)                                     |
 | `set-blocking`              | `2.0.0`   | Ben Coe            | [https://github.com/yargs/set-blocking](https://github.com/yargs/set-blocking)                               |
 | `signal-exit`               | `3.0.3`   | Ben Coe            | [https://github.com/tapjs/signal-exit](https://github.com/tapjs/signal-exit)                                 |
-| `string-similarity`         | `4.0.2`   | Akash Kurdekar     | [https://github.com/aceakash/string-similarity](https://github.com/aceakash/string-similarity)               |
+| `string-similarity`         | `4.0.3`   | Akash Kurdekar     | [https://github.com/aceakash/string-similarity](https://github.com/aceakash/string-similarity)               |
 | `type`                      | `1.2.0`   | Mariusz Nowak      | [https://github.com/medikoo/type](https://github.com/medikoo/type)                                           |
 | `type`                      | `2.1.0`   | Mariusz Nowak      | [https://github.com/medikoo/type](https://github.com/medikoo/type)                                           |
 | `universal-user-agent`      | `6.0.0`   |                    | [https://github.com/gr2m/universal-user-agent](https://github.com/gr2m/universal-user-agent)                 |
