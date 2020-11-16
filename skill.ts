@@ -31,6 +31,8 @@ export const Skill = skill<SkillConfiguration & { repos: any }>({
 		"Maintain repository license files and source code copyright headers",
 	displayName: "Copyright License",
 	categories: [Category.RepoManagement],
+	iconUrl:
+		"https://raw.githubusercontent.com/atomist-skills/copyright-license-skill/main/docs/images/icon.svg",
 
 	resourceProviders: {
 		github: resourceProvider.gitHub({ minRequired: 1 }),
