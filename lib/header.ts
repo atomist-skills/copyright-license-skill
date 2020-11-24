@@ -395,8 +395,10 @@ export function updateCopyrightHeader(args: UpdateCopyrightHeaderArgs): string {
 		if (preambleMatch) {
 			const cut = preambleMatch[0].length;
 			const before = args.content.substring(0, cut);
-			const after = args.content.substring(cut);
-			return before + header + "\n" + after.trimStart();
+			const start = before.endsWith("*/") ? `${before}\n` : before;
+			const after = args.content.substring(cut).trimStart();
+			const end = /\S/.test(after) ? `\n${after}` : "";
+			return start + header + end;
 		} else if (!args.content.trim()) {
 			return header;
 		} else {

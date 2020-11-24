@@ -1275,7 +1275,24 @@ foo:
 			assert(c === e);
 		});
 
-		it("adds header to empty file", () => {
+		it("adds line header to empty file", () => {
+			const a = {
+				blockComment: false,
+				content: ``,
+				file: "empty.test.ts",
+				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: false,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `// Copyright © 2021 Atomist, Inc.
+//
+// Licensed under the MIT license;
+// you may not use this file except in compliance with the License.
+`;
+			assert(c === e);
+		});
+
+		it("adds block header to empty file", () => {
 			const a = {
 				blockComment: true,
 				content: ``,
@@ -1307,6 +1324,127 @@ foo:
 ;;
 ;; Licensed under the MIT license;
 ;; you may not use this file except in compliance with the License.
+`;
+			assert(c === e);
+		});
+
+		it("adds header after block comment preamble", () => {
+			const a = {
+				blockComment: true,
+				content: `/**
+ * This code does something.
+ */`,
+				file: "i-am-easy-to-find.cc",
+				header: `Copyright © 2021 Dennis Ritchie
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.`,
+				updateYear: false,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `/**
+ * This code does something.
+ */
+/*
+ * Copyright © 2021 Dennis Ritchie
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+`;
+			assert(c === e);
+		});
+
+		it("adds header between block comment preamble and code", () => {
+			const a = {
+				blockComment: true,
+				content: `/**
+ * This code does something.
+ */
+
+double add(double x, double y) {
+  return x + y;
+}
+`,
+				file: "roman-holiday.c",
+				header: `Copyright © 2019 Atomist, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.`,
+				updateYear: false,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `/**
+ * This code does something.
+ */
+/*
+ * Copyright © 2019 Atomist, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+double add(double x, double y) {
+  return x + y;
+}
+`;
+			assert(c === e);
+		});
+
+		it("adds header to line comment preamble with block end", () => {
+			const a = {
+				blockComment: true,
+				content: "// This code does something. */\n",
+				file: "something.js",
+				header: `Copyright © 2021 Atomist, Inc.\n\nLicensed under the MIT license;\nyou may not use this file except in compliance with the License.`,
+				updateYear: false,
+			};
+			const c = updateCopyrightHeader(a);
+			const e = `// This code does something. */
+/*
+ * Copyright © 2021 Atomist, Inc.
+ *
+ * Licensed under the MIT license;
+ * you may not use this file except in compliance with the License.
+ */
 `;
 			assert(c === e);
 		});
