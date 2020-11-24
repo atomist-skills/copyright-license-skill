@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/copyright-license-skill/compare/1.0.0...HEAD)
 
+### Fixed
+
+-   Working with existing comments at the tops of files. [#40](https://github.com/atomist-skills/copyright-license-skill/issues/40)
+
 ## [1.0.0](https://github.com/atomist-skills/copyright-license-skill/compare/0.3.0...1.0.0) - 2020-11-18
 
 ### Changed
