@@ -16,6 +16,7 @@
 
 import * as asert from "assert";
 import * as assert from "power-assert";
+
 import {
 	copyrightHeaderRegExp,
 	licenseHeader,
