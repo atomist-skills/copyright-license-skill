@@ -23,6 +23,7 @@ import {
 	skill,
 } from "@atomist/skill";
 import * as spdx from "spdx-license-list";
+
 import { SkillConfiguration } from "./lib/configuration";
 import { defaultFileGlob } from "./lib/header";
 
