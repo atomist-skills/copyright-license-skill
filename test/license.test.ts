@@ -18,6 +18,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as assert from "power-assert";
 import * as spdx from "spdx-license-list/full";
+
 import { fmt } from "../lib/fmt";
 import { ensureLicense, findLicense, licenseMatcher } from "../lib/license";
 

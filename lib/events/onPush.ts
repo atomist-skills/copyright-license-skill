@@ -23,6 +23,7 @@ import {
 	subscription,
 } from "@atomist/skill";
 import * as fs from "fs-extra";
+
 import { SkillConfiguration } from "../configuration";
 import { fixCopyrightLicenseHeader } from "../header";
 import { ensureLicense, findLicense, licenseMatcher } from "../license";

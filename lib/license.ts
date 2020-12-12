@@ -19,6 +19,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as spdx from "spdx-license-list/full";
 import { findBestMatch } from "string-similarity";
+
 import { fmt } from "./fmt";
 
 /**

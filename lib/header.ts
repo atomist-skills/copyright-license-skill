@@ -20,6 +20,7 @@ import * as fs from "fs-extra";
 import * as micromatch from "micromatch";
 import * as path from "path";
 import * as spdx from "spdx-license-list/full";
+
 import { SkillConfiguration } from "./configuration";
 import { spdxLicenseHeaders } from "./licenseHeaders";
 
