@@ -145,10 +145,8 @@ export async function fixCopyrightLicenseHeader(
 				updateYear: updateCopyrightYear({ changed, file, onlyChanged }),
 			});
 			if (newContent !== content) {
-				logs.push(`Updating copyright year in '${file}'`);
+				logs.push(`Updating header year in '${file}'`);
 				await fs.writeFile(filePath, newContent);
-			} else {
-				logs.push(`Copyright year current in '${file}'`);
 			}
 		} catch (e) {
 			logs.push(`Failed to process '${file}': ${e.message}`);
@@ -389,14 +387,24 @@ export function updateCopyrightHeader(args: UpdateCopyrightHeaderArgs): string {
 		const copyrightYear = copyrightMatch.slice(1).find(y => !!y);
 		const currentYear = year();
 		if (copyrightYear === currentYear || !args.updateYear) {
+			log.debug(
+				`Not updating copyright header in '${args.file}': ` +
+					`fileCopyrightYear=${copyrightYear} ` +
+					`currentYear=${currentYear} ` +
+					`updateYear=${args.updateYear}`,
+			);
 			return args.content;
 		}
+		log.debug(`Updating copyright header in '${args.file}'`);
 		return args.content.replace(chRegExp, header);
 	} else {
 		const preambleMatch = preambleRegExp(commentType.prefix).exec(
 			args.content,
 		);
 		if (preambleMatch) {
+			log.debug(
+				`Adding copyright header after preamble in '${args.file}'`,
+			);
 			const cut = preambleMatch[0].length;
 			const before = args.content.substring(0, cut);
 			const start = before.endsWith("*/") ? `${before}\n` : before;
@@ -404,8 +412,10 @@ export function updateCopyrightHeader(args: UpdateCopyrightHeaderArgs): string {
 			const end = /\S/.test(after) ? `\n${after}` : "";
 			return start + header + end;
 		} else if (!args.content.trim()) {
+			log.debug(`Skipping empty file '${args.file}'`);
 			return header;
 		} else {
+			log.debug(`Adding copyright header in '${args.file}'`);
 			return header + "\n" + args.content.trimStart();
 		}
 	}

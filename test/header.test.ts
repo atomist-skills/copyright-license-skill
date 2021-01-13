@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { log } from "@atomist/skill";
 import * as asert from "assert";
 import * as assert from "power-assert";
 
@@ -968,6 +969,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.`;
 	});
 
 	describe("updateCopyrightHeader", () => {
+		let originalLogDebug: any;
+		before(() => {
+			originalLogDebug = Object.getOwnPropertyDescriptor(log, "debug");
+			Object.defineProperty(log, "debug", {
+				value: () => {
+					return;
+				},
+			});
+		});
+		after(() => {
+			Object.defineProperty(log, "debug", originalLogDebug);
+		});
+
 		it("adds copyright header", () => {
 			const a = {
 				blockComment: false,
