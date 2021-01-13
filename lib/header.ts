@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Atomist, Inc.
+ * Copyright © 2021 Atomist, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -145,7 +145,10 @@ export async function fixCopyrightLicenseHeader(
 				updateYear: updateCopyrightYear({ changed, file, onlyChanged }),
 			});
 			if (newContent !== content) {
+				logs.push(`Updating copyright year in '${file}'`);
 				await fs.writeFile(filePath, newContent);
+			} else {
+				logs.push(`Copyright year current in '${file}'`);
 			}
 		} catch (e) {
 			logs.push(`Failed to process '${file}': ${e.message}`);

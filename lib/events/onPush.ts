@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Atomist, Inc.
+ * Copyright © 2021 Atomist, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ export const handler: EventHandler<
 	if (!sha) {
 		return status.success(`No after SHA in push of ${repoSlug}`).hidden();
 	}
-	await ctx.audit.log(`Starting npm Version on ${repoSlug}#${sha}`);
+	await ctx.audit.log(`Starting Copyright License on ${repoSlug}#${sha}`);
 
 	const credential = await ctx.credential.resolve(
 		secret.gitHubAppToken({
