@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+-   Investigate failure to update copyright year. [#78](https://github.com/atomist-skills/copyright-license-skill/issues/78)
 -   Skill fails if new commits on branch. [#80](https://github.com/atomist-skills/copyright-license-skill/issues/80)
 
 ## [1.0.1](https://github.com/atomist-skills/copyright-license-skill/compare/1.0.0...1.0.1) - 2020-11-24
