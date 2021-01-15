@@ -78,10 +78,7 @@ export const handler: EventHandler<
 			credential,
 			sha,
 		}),
-		{
-			depth: commits + 1,
-			detachHead: true,
-		},
+		{ depth: commits + 1 },
 	);
 	await ctx.audit.log(`Cloned repository ${repoSlug}#${sha}`);
 

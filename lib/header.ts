@@ -192,12 +192,22 @@ interface ChangedFilesArgs {
 async function changedFiles(args: ChangedFilesArgs): Promise<string[]> {
 	const sha = args.push.sha;
 	const commits = args.push.commits;
-	const diffResult = await args.project.exec("git", [
-		"diff",
-		"--name-only",
-		`${sha}~${commits}`,
-	]);
-	const files = diffResult.stdout.split("\n").filter(f => !!f);
+	const exec = args.project.exec;
+	const diffArgs = ["diff", "--name-only", `${sha}~${commits}`];
+	let diffOut: string | undefined;
+	try {
+		const diffResult = await exec("git", diffArgs);
+		diffOut = diffResult.stdout;
+	} catch (e) {
+		// unshallow the clone and try again
+		await args.project.exec("git", ["fetch", "--unshallow"]);
+		const diffResult = await exec("git", diffArgs);
+		diffOut = diffResult.stdout;
+	}
+	const files = diffOut
+		.split("\n")
+		.map(f => f.trim())
+		.filter(f => !!f);
 	return files;
 }
 
