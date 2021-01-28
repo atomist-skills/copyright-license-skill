@@ -193,18 +193,37 @@ async function changedFiles(args: ChangedFilesArgs): Promise<string[]> {
 	const sha = args.push.sha;
 	const commits = args.push.commits;
 	const exec = args.project.exec;
-	const diffArgs = ["diff", "--name-only", `${sha}~${commits}`];
-	let diffOut: string | undefined;
+
+	let depth: number | undefined;
 	try {
-		const diffResult = await exec("git", diffArgs);
-		diffOut = diffResult.stdout;
+		const depthResult = await exec("git", ["rev-list", "--count", "HEAD"]);
+		depth = parseInt(depthResult.stdout.trim(), 10);
+		if (isNaN(depth)) {
+			depth = undefined;
+		}
 	} catch (e) {
-		// unshallow the clone and try again
-		await args.project.exec("git", ["fetch", "--unshallow"]);
-		const diffResult = await exec("git", diffArgs);
-		diffOut = diffResult.stdout;
+		depth = undefined;
 	}
-	const files = diffOut
+
+	let filesOut: string | undefined;
+	if (depth && depth <= commits) {
+		// initial push, all files changed
+		const lsResult = await exec("git", ["ls-files"]);
+		filesOut = lsResult.stdout;
+	} else {
+		const diffArgs = ["diff", "--name-only", `${sha}~${commits}`];
+		try {
+			const diffResult = await exec("git", diffArgs);
+			filesOut = diffResult.stdout;
+		} catch (e) {
+			// unshallow the clone and try again
+			await args.project.exec("git", ["fetch", "--unshallow"]);
+			const diffResult = await exec("git", diffArgs);
+			filesOut = diffResult.stdout;
+		}
+	}
+
+	const files = filesOut
 		.split("\n")
 		.map(f => f.trim())
 		.filter(f => !!f);
