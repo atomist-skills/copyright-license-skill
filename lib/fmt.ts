@@ -26,7 +26,7 @@ export interface FmtArgs {
 
 /**
  * Format string to version having lines of target width. Lines may be
- * shorter or longer.
+ * shorter or longer. It only trims lines of length greather than target.
  */
 export function fmt(args: FmtArgs): string {
 	const target = args.target || 72;
@@ -41,48 +41,53 @@ export function fmt(args: FmtArgs): string {
 		.map(p => {
 			const prefix = prefixRegExp.exec(p);
 			const prefixLength = prefix ? prefix[0].length : 0;
+			const beforeLines = p.split("\n");
 			const lines: string[] = [];
-			let current = p;
-			let currentTarget = target;
-			while (current.length > currentTarget) {
-				if (lines.length > 0) {
-					currentTarget = target - prefixLength;
-				}
-				let long: number | undefined;
-				for (let i = currentTarget; i < current.length; i++) {
-					if (spaceRegExp.test(current.charAt(i))) {
-						long = i;
-						break;
+			for (const beforeLine of beforeLines) {
+				let current = beforeLine;
+				let currentTarget = target;
+				while (current.length > currentTarget) {
+					if (lines.length > 0) {
+						currentTarget = target - prefixLength;
+					}
+					let long: number | undefined;
+					for (let i = currentTarget; i < current.length; i++) {
+						if (spaceRegExp.test(current.charAt(i))) {
+							long = i;
+							break;
+						}
+					}
+					if (long === undefined) {
+						long = current.length;
+					}
+					let short: number | undefined;
+					for (let i = currentTarget; i >= 0; i--) {
+						if (spaceRegExp.test(current.charAt(i))) {
+							short = i;
+							break;
+						}
+					}
+					if (long === 0 || short === undefined) {
+						const [l, rest] = splitString(current, currentTarget);
+						lines.push(l);
+						current = rest;
+						continue;
+					} else {
+						const longFactor = 2;
+						const longPenalty = (long - currentTarget) * longFactor;
+						const shortFactor = 1;
+						const shortPenalty =
+							(currentTarget - short) * shortFactor;
+						const splitAt =
+							longPenalty < shortPenalty ? long : short;
+						const [l, rest] = splitString(current, splitAt);
+						lines.push(l);
+						current = rest;
 					}
 				}
-				if (long === undefined) {
-					long = current.length;
+				if (current) {
+					lines.push(current);
 				}
-				let short: number | undefined;
-				for (let i = currentTarget; i >= 0; i--) {
-					if (spaceRegExp.test(current.charAt(i))) {
-						short = i;
-						break;
-					}
-				}
-				if (long === 0 || short === undefined) {
-					const [l, rest] = splitString(current, currentTarget);
-					lines.push(l);
-					current = rest;
-					continue;
-				} else {
-					const longFactor = 2;
-					const longPenalty = (long - currentTarget) * longFactor;
-					const shortFactor = 1;
-					const shortPenalty = (currentTarget - short) * shortFactor;
-					const splitAt = longPenalty < shortPenalty ? long : short;
-					const [l, rest] = splitString(current, splitAt);
-					lines.push(l);
-					current = rest;
-				}
-			}
-			if (current) {
-				lines.push(current);
 			}
 			return lines.join(`\n${" ".repeat(prefixLength)}`);
 		});

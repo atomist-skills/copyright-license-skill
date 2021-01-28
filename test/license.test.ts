@@ -806,7 +806,7 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.`;
 			const i = licenseMatcher({ license: l });
-			assert(i === "GPL-3.0");
+			assert(i === "GPL-3.0" || i === "GPL-3.0+");
 		}).timeout(4000);
 
 		it("does not match a modified GPLv3", () => {
