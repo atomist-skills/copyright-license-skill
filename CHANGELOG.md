@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 -   Copyright years are not updated for initial push. [#82](https://github.com/atomist-skills/copyright-license-skill/issues/82)
+-   Fix fmt and update tests. [8424e54](https://github.com/atomist-skills/copyright-license-skill/commit/8424e54227eb161274d6553de95dd5223054da3b)
 
 ## [1.0.2](https://github.com/atomist-skills/copyright-license-skill/compare/1.0.1...1.0.2) - 2021-01-15
 
