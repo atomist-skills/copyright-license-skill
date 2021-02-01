@@ -140,6 +140,9 @@ export const handler: EventHandler<
 	const commitMessage =
 		(config.parameters.commitMessage || title) +
 		`\n\n[atomist:generated]\n[atomist-skill:atomist/copyright-license-skill]`;
+	const prBranch =
+		`atomist/copyright-${branch}` +
+		`-${push.commits?.[0]?.sha?.substring(0, 7)}_${push.commits?.length}`;
 	await github.persistChanges(
 		ctx,
 		project,
@@ -156,7 +159,7 @@ export const handler: EventHandler<
 			},
 		},
 		{
-			branch: `atomist/copyright-${branch}`,
+			branch: prBranch,
 			title,
 			body,
 			labels: config.parameters.labels,
