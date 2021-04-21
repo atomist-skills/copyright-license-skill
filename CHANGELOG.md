@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased](https://github.com/atomist-skills/copyright-license-skill/compare/1.1.1...HEAD)
 
+### Removed
+
+-   Disable bundling. [a4435d2](https://github.com/atomist-skills/copyright-license-skill/commit/a4435d292465bef400068978be7dc06d233982ac)
+
 ## [1.1.1](https://github.com/atomist-skills/copyright-license-skill/compare/1.1.0...1.1.1) - 2021-04-21
 
 ### Changed
