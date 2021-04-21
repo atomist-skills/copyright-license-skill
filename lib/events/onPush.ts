@@ -17,6 +17,7 @@
 import {
 	EventHandler,
 	github,
+	log,
 	repository,
 	secret,
 	status,
@@ -55,7 +56,7 @@ export const handler: EventHandler<
 	if (!sha) {
 		return status.success(`No after SHA in push of ${repoSlug}`).hidden();
 	}
-	await ctx.audit.log(`Starting Copyright License on ${repoSlug}#${sha}`);
+	log.info(`Starting Copyright License on ${repoSlug}#${sha}`);
 
 	const credential = await ctx.credential.resolve(
 		secret.gitHubAppToken({
@@ -80,7 +81,7 @@ export const handler: EventHandler<
 		}),
 		{ depth: commits + 1 },
 	);
-	await ctx.audit.log(`Cloned repository ${repoSlug}#${sha}`);
+	log.info(`Cloned repository ${repoSlug}#${sha}`);
 
 	if (config.parameters.license) {
 		try {
@@ -89,7 +90,7 @@ export const handler: EventHandler<
 				licenseKey: config.parameters.license,
 			});
 		} catch (e) {
-			await ctx.audit.log(
+			log.error(
 				`Failed to ensure repository ${repoSlug} has license file: ${e.message}`,
 			);
 		}
@@ -124,12 +125,12 @@ export const handler: EventHandler<
 			project,
 			push: { commits, owner: repo.owner, sha },
 		});
-		for (const log of logs) {
-			await ctx.audit.log(log);
+		for (const l of logs) {
+			log.info(l);
 		}
 	} catch (e) {
 		const reason = `Failed to update copyright licence headers: ${e.message}`;
-		await ctx.audit.log(reason);
+		log.error(reason);
 		return status.failure(reason);
 	}
 
@@ -170,6 +171,6 @@ export const handler: EventHandler<
 	);
 
 	const msg = `Completed copyright license skill on ${repoSlug}`;
-	await ctx.audit.log(msg);
+	log.info(msg);
 	return status.success(msg);
 };
